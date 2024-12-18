@@ -6,22 +6,22 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/aws-cdk.aws-sns-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/aws-cdk.aws-sns-{{ version }}.tar.gz
   sha256: 5b70bea4eea0233658ee31c1fa9acb1177c8d7cc957e077d2f9a03d5d2ad1739
 
 build:
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 1
 
 requirements:
   host:
-    - python >=3.7
+    - python {{ python_min }}
     - setuptools >=67.3.2,<67.4.dev0
     - wheel >=0.40,<1.dev0
     - pip
   run:
-    - python >=3.7
+    - python >={{ python_min }}
     - aws-cdk.aws-cloudwatch ==1.204.0
     - aws-cdk.aws-codestarnotifications ==1.204.0
     - aws-cdk.aws-events ==1.204.0
@@ -42,6 +42,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/aws/aws-cdk
